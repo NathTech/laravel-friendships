@@ -93,9 +93,12 @@ trait Friendable
      */
     public function acceptFriendRequest(Model $recipient)
     {
-        $updated = $this->findFriendship($recipient)->whereRecipient($this)->update([
-            'status' => Status::ACCEPTED,
-        ]);
+        $updated = $this->findFriendship($recipient)
+            ->whereRecipient($this)
+            ->where('status', '=', Status::PENDING)
+            ->update([
+                'status' => Status::ACCEPTED,
+            ]);
         event(new Accepted($this, $recipient));
         return $updated;
     }
@@ -158,7 +161,6 @@ trait Friendable
         }
         $result = $friendship->groups()->where($where)->delete();
         return $result;
-
     }
 
     /**
