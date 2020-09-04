@@ -408,7 +408,7 @@ trait Friendable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    private function getFriendsQueryBuilder($groupSlug = '')
+    public function getFriendsQueryBuilder($groupSlug = '')
     {
 
         $friendships = $this->findFriendships(Status::ACCEPTED, $groupSlug)->get(['sender_id', 'recipient_id']);
